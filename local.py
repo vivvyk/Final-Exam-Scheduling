@@ -1,6 +1,8 @@
 import random
 import itertools
 import copy
+import time
+import sys
 
 '''
 def sectioncondense(course):
@@ -20,8 +22,10 @@ def sectioncondense2(course):
     return course
 '''
 
+
 def precomp(studentcourses,exams):
     S = []
+    # print studentcourses
     for student in studentcourses:
         newstudent = []
         examcounter = 0
@@ -30,12 +34,10 @@ def precomp(studentcourses,exams):
                 examcounter += 1
                 newstudent.append(course)
         if examcounter > 1:
-            for i in range(len(exams)):
-                exams[i] = sectioncondense(exams[i])
-            for i in range(len(newstudent)):
-                newstudent[i] = sectioncondense(newstudent[i])
+            exams = [course.rstrip('ABCDEFGHIJKLMNOP') for course in exams]
+            newstudent = [course.rstrip('ABCDEFGHIJKLMNOP') for course in newstudent]
             S.append(newstudent)
-    return S
+    return exams, S
 
 def flatten(l):
     newl =[]
@@ -104,10 +106,11 @@ def reset_A(variables,courses,block_number,variable):
 
 def local_search(exams, courses, block_number):
     attempt_Counter = 0
-    while attempt_Counter < 100:
+    while attempt_Counter < 50:
+        print "Resetting"
         A = [(exam,random.randint(1,block_number)) for exam in exams]
         tabu_list = []
-        for i in range(45):
+        for i in range(500):
             eval_var = evaluate_variable(A,courses,block_number)
             A = reset_A(A,courses,block_number,eval_var[0])
             if A in tabu_list:
@@ -131,19 +134,45 @@ if __name__ == "__main__":
     exams = examreader.readlines()
     exams = flatten([i.strip("\n").replace(" ","").split(",") for i in exams])
 
-    trunc_courses = precomp(courses,exams)
+    exams, trunc_courses = precomp(courses,exams)
 
-    exam_schedule =  local_search(exams,trunc_courses,9)
+    start = time.time()
+    solution = None
+    minimax = sys.maxint
+    for i in range(10):
+        exam_schedule = local_search(exams,trunc_courses,9)
+        if exam_schedule is None:
+            print "No solution found"
+            continue
+        print "Solution found"
+        blocked = []
+        for i in range(9):
+            blocked.append([])
 
-    blocked = []
-    for i in range(9):
-        blocked.append([])
+        for exam in exam_schedule:
+            blocked[exam[1]-1].append(exam[0])
+        
+        maximum = -1
 
-    for exam in exam_schedule:
-        blocked[exam[1]-1].append(exam[0])
+        for block in blocked:
+            if len(block) > maximum:
+                maximum = len(block)
 
-    for index,block in enumerate(blocked):
+        if maximum < minimax:
+            print "Updating best solution..."
+            solution = blocked
+            minimax = maximum
+
+    end = time.time()
+
+    print exam_schedule
+
+    print evaluate_variable(exam_schedule, trunc_courses, 9)
+
+    for index,block in enumerate(solution):
         print index+1
         for item in block:
             print item
         print "\n"
+
+    print "Runtime: " + str(end - start) + " seconds"
