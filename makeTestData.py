@@ -6,7 +6,7 @@ nums = ['100', '101', '103', '109', '110', '116', '157', '175', '200', '201', '2
 
 exams = ['BIO100', 'BIO310', 'ECON101', 'FREN101', 'MATH321', 'PSYC100', 'PSYC206', 'CHEM303', 'CMPT200', 'LIT157', 'LIT321', 'PSYC209', 'SPAN101A', 'SPAN101B', 'ANTH214', 'BIO331', 'CMPT100', 'NATS116', 'PHYS101', 'CHEM306', 'CMPT243', 'PHIL175', 'PSYC203', 'SART218', 'ARTS211', 'ARTS311', 'CHEM101A', 'CHEM101B', 'CMPT353', 'FREN205', 'MATH365', 'PHIL222', 'PSYC322', 'BO200', 'CHIN101', 'MATH109', 'MATH221A', 'MATH221B', 'PHIL216', 'BIO201', 'MATH210', 'MUS207', 'CMPT364', 'HIST261', 'MATH110A', 'MATH110B', 'PHIL103', 'ANTH202', 'MATH211A', 'MATH211B', 'MATH364']
 
-numstudents = 800
+numstudents = 200
 
 sectionletters = ['A', 'B', 'C', 'D', 'E']
 
@@ -24,13 +24,13 @@ for i in range(numstudents):
             coursename = random.randint(0, len(depts) - 1)
             coursenum = random.randint(0, len(nums) - 1)
             courses += depts[coursename] + nums[coursenum]
-        multisection = random.randint(0, 9)
-        if multisection >= 7:
-            sections = multisection % 5
-        else:
-            sections = -1
-        if sections >= 0:
-            courses += sectionletters[sections]
+            multisection = random.randint(0, 9)
+            if multisection >= 7:
+                sections = multisection % 5
+            else:
+                sections = -1
+            if sections >= 0:
+                courses += sectionletters[sections]
         courses += ', '
         c += 1
     courses = courses[:-2] + '\n'

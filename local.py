@@ -2,15 +2,27 @@ import random
 import itertools
 import copy
 
+
+def sectioncondense(course):
+    if course[-1] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
+        return course[:-1]
+    return course
+
 def precomp(studentcourses,exams):
     S = []
+    for i in range(len(studentcourses)):
+        studentcourses[i] = sectioncondense(studentcourses[i])
+    for i in range(len(exams)):
+        exams[i] = sectioncondense(exams[i])
     for student in studentcourses:
+        newstudent = []
         examcounter = 0
         for course in student:
             if course in exams:
                 examcounter += 1
+                newstudent.append(course)
         if examcounter > 1:
-            S.append(student)
+            S.append(newstudent)
     return S
 
 def flatten(l):
@@ -80,13 +92,15 @@ def reset_A(variables,courses,block_number,variable):
 
 def local_search(exams, courses, block_number):
     attempt_Counter = 0
-    while attempt_Counter < 250:
+    while attempt_Counter < 100:
         A = [(exam,random.randint(1,block_number)) for exam in exams]
-        for i in range(50):
+        tabu_list = []
+        for i in range(45):
             eval_var = evaluate_variable(A,courses,block_number)
-            if eval_var is None:
-                return A
             A = reset_A(A,courses,block_number,eval_var[0])
+            if A in tabu_list:
+                break
+            tabu_list.append(A)
             if len(A) == 2:
                 return A[1]
         attempt_Counter += 1
