@@ -36,6 +36,8 @@ def precomp(studentcourses,exams):
         if examcounter > 1:
             exams = [course.rstrip('ABCDEFGHIJKLMNOP') for course in exams]
             newstudent = [course.rstrip('ABCDEFGHIJKLMNOP') for course in newstudent]
+            exams = [exam.rstrip('ABCDEFGHIJKLMNOP') for exam in exams]
+            exams = list(set(exams))
             S.append(newstudent)
     return exams, S
 
@@ -106,12 +108,13 @@ def reset_A(variables,courses,block_number,variable):
 
 def local_search(exams, courses, block_number):
     attempt_Counter = 0
-    while attempt_Counter < 50:
-        print "Resetting"
+    while attempt_Counter < 100:
+        # print "Resetting"
         A = [(exam,random.randint(1,block_number)) for exam in exams]
         tabu_list = []
-        for i in range(500):
+        for i in range(100):
             eval_var = evaluate_variable(A,courses,block_number)
+            # print eval_var
             A = reset_A(A,courses,block_number,eval_var[0])
             if A in tabu_list:
                 break
