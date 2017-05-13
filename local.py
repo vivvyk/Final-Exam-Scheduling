@@ -16,12 +16,11 @@ def precomp(studentcourses,exams):
                 examcounter += 1
                 newstudent.append(course)
         if examcounter > 1:
-            exams = [course.rstrip('ABCDEFGHIJKLMNOP') for course in exams]
             newstudent = [course.rstrip('ABCDEFGHIJKLMNOP') for course in newstudent]
-            newstudent = list(set(student))
-            exams = [exam.rstrip('ABCDEFGHIJKLMNOP') for exam in exams]
-            exams = list(set(exams))
+            newstudent = list(set(newstudent))
             S.append(newstudent)
+    exams = [exam.rstrip('ABCDEFGHIJKLMNOP') for exam in exams]
+    exams = list(set(exams))
     return exams, S
 
 def flatten(l):
