@@ -2,18 +2,27 @@ import random
 import itertools
 import copy
 
-
+'''
 def sectioncondense(course):
-    if course[-1] in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
-        return course[:-1]
+    j = 0
+    for i in course:
+        if i.isdigit():
+            deptlen = j
+            break
+        j += 1
+    course = course[:deptlen+3]
     return course
+'''
 
 def precomp(studentcourses,exams):
     S = []
-    for i in range(len(studentcourses)):
-        studentcourses[i] = sectioncondense(studentcourses[i])
+    '''
     for i in range(len(exams)):
         exams[i] = sectioncondense(exams[i])
+    for i in range(len(studentcourses)):
+        for j in range(len(studentcourses[i])):
+            studentcourses[i][j] = sectioncondense(studentcourses[i][j])
+    '''
     for student in studentcourses:
         newstudent = []
         examcounter = 0
