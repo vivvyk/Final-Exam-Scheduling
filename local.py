@@ -144,14 +144,22 @@ if __name__ == "__main__":
     exams, trunc_courses = precomp(courses,exams)
 
     start = time.time()
+
+    # Best solution so far
     solution = None
+
+    # Smallest maximum amount of courses in a time slot
     minimax = sys.maxint
+
+    # Refinement level, call local search repeatedly
     for i in range(int(sys.argv[1])):
         exam_schedule = local_search(exams,trunc_courses,9)
         if exam_schedule is None:
             print "No solution found"
             continue
         print "Solution found"
+
+        # Convert results so it can be indexed by block number
         blocked = []
         for i in range(9):
             blocked.append([])
@@ -159,12 +167,15 @@ if __name__ == "__main__":
         for exam in exam_schedule:
             blocked[exam[1]-1].append(exam[0])
 
+
+        # Find the maximum
         maximum = -1
 
         for block in blocked:
             if len(block) > maximum:
                 maximum = len(block)
 
+        # Find the minimum
         if maximum < minimax:
             print "Updating best solution..."
             solution = blocked
@@ -172,6 +183,7 @@ if __name__ == "__main__":
 
     end = time.time()
 
+    # Print out the schedule
     for index,block in enumerate(solution):
         print index+1
         for item in block:
