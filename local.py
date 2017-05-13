@@ -4,24 +4,6 @@ import copy
 import time
 import sys
 
-'''
-def sectioncondense(course):
-    j = 0
-    for i in course:
-        if i.isdigit():
-            deptlen = j
-            break
-        j += 1
-    course = course[:deptlen+3]
-    return course
-
-
-def sectioncondense2(course):
-    if course[-1] in "ABCDEF":
-        return course[:-1]
-    return course
-'''
-
 
 def precomp(studentcourses,exams):
     S = []
