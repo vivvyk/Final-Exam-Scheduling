@@ -12,17 +12,16 @@ def sectioncondense(course):
         j += 1
     course = course[:deptlen+3]
     return course
+
+
+def sectioncondense2(course):
+    if course[-1] in "ABCDEF":
+        return course[:-1]
+    return course
 '''
 
 def precomp(studentcourses,exams):
     S = []
-    '''
-    for i in range(len(exams)):
-        exams[i] = sectioncondense(exams[i])
-    for i in range(len(studentcourses)):
-        for j in range(len(studentcourses[i])):
-            studentcourses[i][j] = sectioncondense(studentcourses[i][j])
-    '''
     for student in studentcourses:
         newstudent = []
         examcounter = 0
@@ -31,6 +30,10 @@ def precomp(studentcourses,exams):
                 examcounter += 1
                 newstudent.append(course)
         if examcounter > 1:
+            for i in range(len(exams)):
+                exams[i] = sectioncondense(exams[i])
+            for i in range(len(newstudent)):
+                newstudent[i] = sectioncondense(newstudent[i])
             S.append(newstudent)
     return S
 
