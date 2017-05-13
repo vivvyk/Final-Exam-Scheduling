@@ -4,11 +4,28 @@ import copy
 import time
 import sys
 
+'''
+def sectioncondense(course):
+    j = 0
+    for i in course:
+        if i.isdigit():
+            deptlen = j
+            break
+        j += 1
+    course = course[:deptlen+3]
+    return course
+
+
+def sectioncondense2(course):
+    if course[-1] in "ABCDEF":
+        return course[:-1]
+    return course
+'''
+
+
 def precomp(studentcourses,exams):
     S = []
-
     # print studentcourses
-
     for student in studentcourses:
         newstudent = []
         examcounter = 0
@@ -17,10 +34,11 @@ def precomp(studentcourses,exams):
                 examcounter += 1
                 newstudent.append(course)
         if examcounter > 1:
+            exams = [course.rstrip('ABCDEFGHIJKLMNOP') for course in exams]
+            newstudent = [course.rstrip('ABCDEFGHIJKLMNOP') for course in newstudent]
+            newstudent = list(set(student))
             exams = [exam.rstrip('ABCDEFGHIJKLMNOP') for exam in exams]
             exams = list(set(exams))
-            newstudent = [course.rstrip('ABCDEFGHIJKLMNOP') for course in student]
-            newstudent = list(set(student))
             S.append(newstudent)
     return exams, S
 
