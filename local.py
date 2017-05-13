@@ -6,6 +6,14 @@ import sys
 
 
 def precomp(studentcourses,exams):
+    '''
+    Precomputation step: gets rid of students with fewer than 2 exams,
+    gets rid of courses that don't have an exam, and disregards/labs and other sections.
+
+    @param studentcourses: the list of courses being taken by every student.
+    @param exams: the list of exams.
+    @return: a combined exam list, cut/combined student course list.
+    '''
     S = []
     for student in studentcourses:
         newstudent = []
@@ -13,16 +21,26 @@ def precomp(studentcourses,exams):
         for course in student:
             if course in exams:
                 examcounter += 1
-                newstudent.append(course)
-        if examcounter > 1:
+                newstudent.append(course) #Cuts courses that do not have an exam.
+
+        if examcounter > 1: #If the student does not have fewer than 2 exams, strips sections and labs, and appends the course for processing.
             newstudent = [course.rstrip('ABCDEFGHIJKLMNOP') for course in newstudent]
             newstudent = list(set(newstudent))
             S.append(newstudent)
+
+    #Strips exams
     exams = [exam.rstrip('ABCDEFGHIJKLMNOP') for exam in exams]
     exams = list(set(exams))
+
     return exams, S
 
 def flatten(l):
+    '''
+    Flattens array; turns 2D array into 1D
+
+    @param l: 2D array
+    @return: 1D array
+    '''
     newl =[]
     for sub in l:
         for x in sub:
@@ -30,6 +48,11 @@ def flatten(l):
     return newl
 
 def evaluate_variable(variables,courses,block_number):
+    '''
+    Picks the next variable to change. This variable must participate in the largest number of conflicts.
+
+    @param variables:
+    '''
     blocked = []
     for i in range(block_number):
         blocked.append([])
@@ -148,10 +171,6 @@ if __name__ == "__main__":
             minimax = maximum
 
     end = time.time()
-
-    print exam_schedule
-
-    print evaluate_variable(exam_schedule, trunc_courses, 9)
 
     for index,block in enumerate(solution):
         print index+1
