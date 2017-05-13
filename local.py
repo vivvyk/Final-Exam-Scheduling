@@ -18,6 +18,7 @@ def precomp(studentcourses,exams):
         if examcounter > 1:
             exams = [course.rstrip('ABCDEFGHIJKLMNOP') for course in exams]
             newstudent = [course.rstrip('ABCDEFGHIJKLMNOP') for course in newstudent]
+            newstudent = list(set(student))
             exams = [exam.rstrip('ABCDEFGHIJKLMNOP') for exam in exams]
             exams = list(set(exams))
             S.append(newstudent)
@@ -43,6 +44,12 @@ def evaluate_variable(variables,courses,block_number):
         for conflict in conflictions:
             for student in courses:
                 if conflict[0] in student and conflict[1] in student:
+                    '''
+                    print "conflict found"
+                    print conflict
+                    print student
+                    exit(0)
+                    '''
                     conflictArray.append(conflict)
 
     if len(conflictArray) == 0:
@@ -124,7 +131,7 @@ if __name__ == "__main__":
     start = time.time()
     solution = None
     minimax = sys.maxint
-    for i in range(10):
+    for i in range(30):
         exam_schedule = local_search(exams,trunc_courses,9)
         if exam_schedule is None:
             print "No solution found"
