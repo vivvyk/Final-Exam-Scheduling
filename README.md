@@ -1,0 +1,1 @@
+This project creates a final exam schedule (with minimum conflicts) using a local search algorithm.
